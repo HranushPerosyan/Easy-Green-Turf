@@ -1183,7 +1183,6 @@
         /* ============================================
            FOOTER
            Enhanced with prominent logo display
-           Logo filter removed for better visibility
            ============================================ */
         footer {
             background: linear-gradient(135deg, var(--deep-green) 0%, #0f3320 100%);
@@ -1226,7 +1225,7 @@
             z-index: 2;
         }
 
-        /* Prominent logo display in footer - NO FILTER for visibility */
+        /* Prominent logo display in footer */
         .footer-logo-wrapper {
             display: flex;
             flex-direction: column;
@@ -1256,7 +1255,6 @@
             height: 70px;
             width: auto;
             display: block;
-            /* No filter - logo displays in original colors */
         }
 
         .footer-tagline {
@@ -1374,16 +1372,20 @@
                 padding: 70px 5%;
             }
 
-            /* Hero responsive - full width blur on mobile */
+            /* Hero responsive - NO BLUR on mobile, clean background image */
             .hero {
                 justify-content: center;
                 padding: 100px 5% 50px;
             }
 
+            /* Completely remove the blur effect on mobile */
             .hero::after {
-                width: 100%;
-                mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
-                -webkit-mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+                display: none;
+            }
+
+            /* Keep only the subtle darkening overlay for text readability */
+            .hero::before {
+                background: linear-gradient(135deg, rgba(26, 77, 46, 0.35) 0%, rgba(0, 0, 0, 0.45) 100%);
             }
 
             .hero-content {
@@ -2279,7 +2281,6 @@
 
     <!-- ============================================
          FOOTER
-         Logo now visible with white background container
          ============================================ -->
     <footer>
         <div class="footer-content">
