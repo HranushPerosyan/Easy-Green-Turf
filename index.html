@@ -127,8 +127,8 @@
 
         /* ============================================
            HERO SECTION
-           Full-screen with background image, overlay,
-           and blurred text container for readability
+           Full-screen with background image
+           Text aligned to left with partial blur on text side only
            ============================================ */
         .hero {
             min-height: 100vh;
@@ -139,41 +139,55 @@
             position: relative;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             padding: 120px 6% 60px;
+            overflow: hidden;
         }
 
-        /* Dark green gradient overlay for better text contrast */
+        /* Subtle overall darkening for contrast */
         .hero::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(26, 77, 46, 0.75) 0%, rgba(45, 134, 89, 0.55) 100%);
+            background: linear-gradient(135deg, rgba(26, 77, 46, 0.15) 0%, rgba(0, 0, 0, 0.25) 100%);
+            z-index: 1;
         }
 
+        /* Partial blur effect - only on the left side where text is */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 55%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            mask-image: linear-gradient(to right, black 0%, black 50%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to right, black 0%, black 50%, transparent 100%);
+            z-index: 2;
+        }
+
+        /* Hero content - positioned on the left */
         .hero-content {
             position: relative;
-            z-index: 2;
-            max-width: 900px;
-            text-align: center;
-            /* Frosted glass effect behind text */
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 60px 50px;
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+            z-index: 3;
+            max-width: 650px;
+            text-align: left;
+            padding: 50px 45px;
+            margin-left: 2%;
         }
 
-        /* Hero logo centered at top */
+        /* Hero logo aligned to the left */
         .hero-logo {
-            height: 80px;
+            height: 70px;
             width: auto;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
         }
 
+        /* Hero tag without emoji - cleaner look */
         .hero-tag {
             display: inline-block;
             padding: 8px 20px;
@@ -182,14 +196,16 @@
             border-radius: 50px;
             font-size: 0.85rem;
             font-weight: 500;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             margin-bottom: 25px;
             border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .hero h1 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-size: clamp(2.5rem, 5.5vw, 4.2rem);
             font-weight: 800;
             color: white;
             line-height: 1.1;
@@ -203,12 +219,19 @@
         }
 
         .hero p {
-            font-size: clamp(1rem, 2vw, 1.2rem);
+            font-size: clamp(1rem, 1.8vw, 1.15rem);
             color: rgba(255, 255, 255, 0.95);
             margin-bottom: 35px;
-            max-width: 650px;
-            margin-left: auto;
-            margin-right: auto;
+            max-width: 550px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Buttons aligned to the left */
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: flex-start;
         }
 
         /* ============================================
@@ -244,7 +267,6 @@
             background: transparent;
             color: white;
             border: 2px solid white;
-            margin-left: 15px;
         }
 
         .btn-secondary:hover {
@@ -381,7 +403,7 @@
 
         /* ============================================
            FEATURES SECTION
-           Grid of feature cards with icons
+           Grid of feature cards with professional SVG icons
            ============================================ */
         .features-grid {
             display: grid;
@@ -425,22 +447,39 @@
             transform: scaleX(1);
         }
 
+        /* Professional SVG icon container */
         .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: var(--soft-bg);
-            border-radius: 15px;
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--soft-bg) 0%, rgba(168, 213, 186, 0.5) 100%);
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 22px;
-            font-size: 1.8rem;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .feature-icon svg {
+            width: 32px;
+            height: 32px;
+            stroke: var(--fresh-green);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: all 0.4s ease;
         }
 
         .feature-card:hover .feature-icon {
-            background: var(--fresh-green);
+            background: linear-gradient(135deg, var(--fresh-green), var(--bright-green));
             transform: rotate(-5deg) scale(1.1);
+            box-shadow: 0 10px 25px rgba(45, 134, 89, 0.3);
+        }
+
+        .feature-card:hover .feature-icon svg {
+            stroke: white;
         }
 
         .feature-card h3 {
@@ -457,10 +496,16 @@
 
         /* ============================================
            OUR WORK / PORTFOLIO SECTION
-           Showcase of completed projects
+           Click to open scrollable modal (pure CSS)
+           Uses checkbox hack - no JavaScript required
            ============================================ */
         .our-work {
             background: var(--soft-bg);
+        }
+
+        /* Hidden checkboxes to control modal visibility */
+        .modal-toggle {
+            display: none;
         }
 
         .work-grid {
@@ -479,12 +524,14 @@
         .work-item:nth-child(4) { grid-column: span 5; grid-row: span 2; }
         .work-item:nth-child(5) { grid-column: span 7; grid-row: span 1; }
 
+        /* Each work item is now a clickable label */
         .work-item {
             position: relative;
             border-radius: 18px;
             overflow: hidden;
             cursor: pointer;
             box-shadow: var(--shadow);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
 
         .work-item img {
@@ -523,6 +570,29 @@
             transition: transform 0.4s ease 0.05s;
         }
 
+        /* "View Project" hint indicator */
+        .work-overlay .view-hint {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform: translateY(-10px);
+            opacity: 0;
+            transition: all 0.4s ease 0.1s;
+        }
+
+        .work-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
         .work-item:hover img {
             transform: scale(1.08);
         }
@@ -532,8 +602,256 @@
         }
 
         .work-item:hover .work-overlay h3,
-        .work-item:hover .work-overlay p {
+        .work-item:hover .work-overlay p,
+        .work-item:hover .work-overlay .view-hint {
             transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* ============================================
+           PROJECT MODAL
+           Full-screen overlay with scrollable content
+           Triggered by checkbox :checked state
+           ============================================ */
+        .project-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 20, 15, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 60px 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        /* Show modal when corresponding checkbox is checked */
+        #modal1:checked ~ .modal-1,
+        #modal2:checked ~ .modal-2,
+        #modal3:checked ~ .modal-3,
+        #modal4:checked ~ .modal-4,
+        #modal5:checked ~ .modal-5 {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            max-width: 900px;
+            width: 100%;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+            transform: translateY(30px) scale(0.95);
+            transition: transform 0.4s ease;
+        }
+
+        #modal1:checked ~ .modal-1 .modal-content,
+        #modal2:checked ~ .modal-2 .modal-content,
+        #modal3:checked ~ .modal-3 .modal-content,
+        #modal4:checked ~ .modal-4 .modal-content,
+        #modal5:checked ~ .modal-5 .modal-content {
+            transform: translateY(0) scale(1);
+        }
+
+        /* Custom scrollbar for modal */
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: var(--soft-bg);
+            border-radius: 10px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: var(--mint);
+            border-radius: 10px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: var(--fresh-green);
+        }
+
+        /* Close button (X) in top-right corner */
+        .modal-close {
+            position: sticky;
+            top: 20px;
+            float: right;
+            margin: 20px 20px 0 0;
+            width: 44px;
+            height: 44px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--deep-green);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--deep-green);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        /* Modal hero image */
+        .modal-hero {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .modal-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(26, 77, 46, 0.8) 0%, transparent 60%);
+            display: flex;
+            align-items: flex-end;
+            padding: 40px;
+        }
+
+        .modal-hero-text h2 {
+            font-family: 'Playfair Display', serif;
+            color: white;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 8px;
+        }
+
+        .modal-hero-text p {
+            color: var(--mint);
+            font-size: 1rem;
+        }
+
+        /* Modal body content */
+        .modal-body {
+            padding: 40px;
+        }
+
+        .modal-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(26, 77, 46, 0.1);
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .meta-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .meta-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: var(--deep-green);
+            font-weight: 600;
+        }
+
+        .modal-body h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--deep-green);
+            margin-bottom: 15px;
+            margin-top: 25px;
+        }
+
+        .modal-body h3:first-of-type {
+            margin-top: 0;
+        }
+
+        .modal-body p {
+            color: var(--text-light);
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        /* Gallery grid inside modal */
+        .modal-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .modal-gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .modal-gallery img:hover {
+            transform: scale(1.03);
+        }
+
+        /* Feature list in modal */
+        .modal-features {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .modal-features li {
+            padding: 12px 18px;
+            background: var(--soft-bg);
+            border-radius: 10px;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-features li::before {
+            content: '✓';
+            color: var(--fresh-green);
+            font-weight: bold;
+        }
+
+        /* CTA button in modal */
+        .modal-cta {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(26, 77, 46, 0.1);
+            text-align: center;
+        }
+
+        .modal-cta p {
+            margin-bottom: 20px;
+            font-weight: 500;
+            color: var(--text-dark);
         }
 
         /* ============================================
@@ -864,36 +1182,99 @@
 
         /* ============================================
            FOOTER
+           Enhanced with prominent logo display
+           Logo filter removed for better visibility
            ============================================ */
         footer {
-            background: var(--deep-green);
+            background: linear-gradient(135deg, var(--deep-green) 0%, #0f3320 100%);
             color: white;
-            padding: 50px 6% 25px;
+            padding: 60px 6% 25px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative blurred accent in footer */
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -150px;
+            left: -150px;
+            width: 400px;
+            height: 400px;
+            background: rgba(45, 134, 89, 0.15);
+            border-radius: 50%;
+            filter: blur(80px);
+        }
+
+        footer::after {
+            content: '';
+            position: absolute;
+            bottom: -150px;
+            right: -150px;
+            width: 400px;
+            height: 400px;
+            background: rgba(168, 213, 186, 0.1);
+            border-radius: 50%;
+            filter: blur(80px);
         }
 
         .footer-content {
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Prominent logo display in footer - NO FILTER for visibility */
+        .footer-logo-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 25px;
         }
 
         .footer-logo {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 20px 35px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer-logo:hover {
+            background: white;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
         }
 
         .footer-logo img {
-            height: 60px;
+            height: 70px;
             width: auto;
-            filter: brightness(0) invert(1);
-            opacity: 0.95;
+            display: block;
+            /* No filter - logo displays in original colors */
+        }
+
+        .footer-tagline {
+            color: var(--mint);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 10px;
+            opacity: 0.9;
         }
 
         .footer-content > p {
             color: rgba(255, 255, 255, 0.7);
             font-size: 0.9rem;
             margin-bottom: 25px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .footer-links {
@@ -910,15 +1291,60 @@
             text-decoration: none;
             font-size: 0.9rem;
             transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--mint);
+            transition: width 0.3s ease;
         }
 
         .footer-links a:hover {
             color: var(--mint);
         }
 
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Footer contact info row */
+        .footer-contact-row {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            padding: 25px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .footer-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 0.9rem;
+        }
+
+        .footer-contact-item svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--mint);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
         .footer-bottom {
             padding-top: 25px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.5);
         }
@@ -948,8 +1374,27 @@
                 padding: 70px 5%;
             }
 
+            /* Hero responsive - full width blur on mobile */
+            .hero {
+                justify-content: center;
+                padding: 100px 5% 50px;
+            }
+
+            .hero::after {
+                width: 100%;
+                mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+                -webkit-mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+            }
+
             .hero-content {
-                padding: 45px 30px;
+                text-align: center;
+                max-width: 100%;
+                margin-left: 0;
+                padding: 40px 25px;
+            }
+
+            .hero-buttons {
+                justify-content: center;
             }
 
             .btn-secondary {
@@ -982,11 +1427,30 @@
                 grid-column: span 2;
                 grid-row: span 1;
             }
+
+            /* Modal responsive */
+            .modal-hero {
+                height: 280px;
+            }
+            .modal-body {
+                padding: 30px;
+            }
+            .modal-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            /* Footer responsive */
+            .footer-contact-row {
+                gap: 20px;
+            }
+            .footer-logo img {
+                height: 55px;
+            }
         }
 
         @media (max-width: 500px) {
             .hero-content {
-                padding: 35px 22px;
+                padding: 30px 18px;
             }
 
             .hero h1 {
@@ -994,7 +1458,7 @@
             }
 
             .hero-logo {
-                height: 60px;
+                height: 55px;
             }
 
             .logo-img {
@@ -1027,6 +1491,45 @@
             .work-item:nth-child(1) {
                 grid-column: span 1;
             }
+
+            /* Modal mobile */
+            .project-modal {
+                padding: 20px 10px;
+            }
+            .modal-hero {
+                height: 220px;
+            }
+            .modal-hero-overlay {
+                padding: 25px;
+            }
+            .modal-body {
+                padding: 25px 20px;
+            }
+            .modal-meta {
+                gap: 20px;
+            }
+            .modal-features {
+                grid-template-columns: 1fr;
+            }
+
+            /* Footer mobile */
+            footer {
+                padding: 50px 5% 20px;
+            }
+            .footer-logo {
+                padding: 16px 25px;
+            }
+            .footer-logo img {
+                height: 48px;
+            }
+            .footer-links {
+                gap: 18px;
+            }
+            .footer-contact-row {
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
         }
     </style>
 </head>
@@ -1052,24 +1555,22 @@
 
     <!-- ============================================
          HERO SECTION
-         Full-screen background with blurred text container
          ============================================ -->
     <section class="hero" id="home">
         <div class="hero-content">
-            <!-- Brand logo displayed at top of hero -->
             <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/979d265b-d8d9-4fd6-9bb4-b08b2b1479b4.png?v=1793535008" alt="Eazy Green Turf" class="hero-logo">
-            <span class="hero-tag">✨ PREMIUM ARTIFICIAL GRASS</span>
+            <span class="hero-tag">PREMIUM ARTIFICIAL GRASS</span>
             <h1>Transform Your Space Into <span>Evergreen</span> Paradise</h1>
             <p>Experience the beauty of a lush, green lawn all year round — no watering, no mowing, no hassle. Premium artificial turf crafted for homes, gardens, and commercial spaces.</p>
-            <a href="#contact" class="btn btn-primary">Get Free Quote</a>
-            <a href="#features" class="btn btn-secondary">Learn More</a>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn btn-primary">Get Free Quote</a>
+                <a href="#features" class="btn btn-secondary">Learn More</a>
+            </div>
         </div>
     </section>
 
     <!-- ============================================
          ABOUT SECTION
-         Company story with image and stats
-         Updated image: modern Australian home with artificial turf
          ============================================ -->
     <section class="about" id="about">
         <div class="about-grid">
@@ -1102,7 +1603,6 @@
 
     <!-- ============================================
          FEATURES SECTION
-         Grid of benefits with icons
          ============================================ -->
     <section class="features" id="features">
         <div class="section-header">
@@ -1112,32 +1612,70 @@
         </div>
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon">💧</div>
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+                    </svg>
+                </div>
                 <h3>Water Saving</h3>
                 <p>Reduce water usage by up to 100%. No irrigation needed — ever. Save money and the environment.</p>
             </div>
+
             <div class="feature-card">
-                <div class="feature-icon">🌱</div>
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19.2 2.96c.9 6.76-2.33 11.67-7.2 14.04A7 7 0 0 1 11 20z"/>
+                        <path d="M2 21c0-3 1.85-5.36 5.08-6"/>
+                    </svg>
+                </div>
                 <h3>Always Green</h3>
                 <p>Enjoy a vibrant, lush lawn all year round regardless of weather, season, or foot traffic.</p>
             </div>
+
             <div class="feature-card">
-                <div class="feature-icon">🛡️</div>
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M9 12l2 2 4-4"/>
+                    </svg>
+                </div>
                 <h3>UV Resistant</h3>
                 <p>Advanced UV protection ensures your turf stays bright and doesn't fade under the sun.</p>
             </div>
+
             <div class="feature-card">
-                <div class="feature-icon">🐾</div>
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="11" cy="4" r="2"/>
+                        <circle cx="18" cy="8" r="2"/>
+                        <circle cx="4" cy="8" r="2"/>
+                        <circle cx="19" cy="15" r="2"/>
+                        <circle cx="5" cy="15" r="2"/>
+                        <path d="M12 18c-2.5 0-4.5 1.5-4.5 3.5 0 .83.67 1.5 1.5 1.5h6c.83 0 1.5-.67 1.5-1.5 0-2-2-3.5-4.5-3.5z"/>
+                    </svg>
+                </div>
                 <h3>Pet Friendly</h3>
                 <p>Safe for pets and kids. Easy to clean, non-toxic materials, and soft underfoot.</p>
             </div>
+
             <div class="feature-card">
-                <div class="feature-icon">⚡</div>
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                    </svg>
+                </div>
                 <h3>Easy Install</h3>
                 <p>Professional installation in just one day. Minimal disruption to your daily routine.</p>
             </div>
+
             <div class="feature-card">
-                <div class="feature-icon">🏆</div>
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="8" r="7"/>
+                        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+                        <path d="M12 5v6M9.5 8l2.5 2.5L14.5 8"/>
+                    </svg>
+                </div>
                 <h3>15+ Year Warranty</h3>
                 <p>Backed by an industry-leading 15+ year warranty. Quality you can trust for decades to come.</p>
             </div>
@@ -1146,57 +1684,388 @@
 
     <!-- ============================================
          OUR WORK / PORTFOLIO SECTION
-         Showcase of completed projects with hover effects
          ============================================ -->
     <section class="our-work" id="work">
         <div class="section-header">
             <span class="section-tag">Our Portfolio</span>
             <h2>Recent Transformations</h2>
-            <p>Browse through some of our latest projects — from cozy backyards to stunning commercial landscapes.</p>
+            <p>Browse through some of our latest projects — click any project to view full details.</p>
         </div>
+
+        <input type="checkbox" id="modal1" class="modal-toggle">
+        <input type="checkbox" id="modal2" class="modal-toggle">
+        <input type="checkbox" id="modal3" class="modal-toggle">
+        <input type="checkbox" id="modal4" class="modal-toggle">
+        <input type="checkbox" id="modal5" class="modal-toggle">
+
         <div class="work-grid">
-            <!-- Project 1 - Large feature -->
-            <div class="work-item">
+            <label for="modal1" class="work-item">
                 <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/Front-Yard-Coronado-Tracy.jpg?v=1793297034" alt="Front Yard Coronado Project">
                 <div class="work-overlay">
+                    <span class="view-hint">View Project →</span>
                     <h3>Front Yard Coronado</h3>
                     <p>Residential • Tracy, CA</p>
                 </div>
-            </div>
+            </label>
 
-            <!-- Project 2 -->
-            <div class="work-item">
+            <label for="modal2" class="work-item">
                 <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/images_3.jpg?v=1793297034" alt="Garden Landscape Project">
                 <div class="work-overlay">
+                    <span class="view-hint">View Project →</span>
                     <h3>Garden Landscape</h3>
                     <p>Residential • Backyard</p>
                 </div>
-            </div>
+            </label>
 
-            <!-- Project 3 -->
-            <div class="work-item">
+            <label for="modal3" class="work-item">
                 <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/DSC5133-2-scaled.jpg?v=1793297035" alt="Modern Outdoor Space">
                 <div class="work-overlay">
+                    <span class="view-hint">View Project →</span>
                     <h3>Modern Outdoor Living</h3>
                     <p>Residential • Patio</p>
                 </div>
-            </div>
+            </label>
 
-            <!-- Project 4 - Tall feature -->
-            <div class="work-item">
+            <label for="modal4" class="work-item">
                 <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/662be0b7e88bf8ef28f1fa586711c2fe.jpg?v=1793534928" alt="Commercial Turf Installation">
                 <div class="work-overlay">
+                    <span class="view-hint">View Project →</span>
                     <h3>Commercial Landscape</h3>
                     <p>Commercial • Office Complex</p>
                 </div>
-            </div>
+            </label>
 
-            <!-- Project 5 -->
-            <div class="work-item">
+            <label for="modal5" class="work-item">
                 <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/360_F_2060065365_veVreELBZQ36hO9nH3zQwFszT2cVuPON.jpg?v=1793297667" alt="Poolside Turf Project">
                 <div class="work-overlay">
+                    <span class="view-hint">View Project →</span>
                     <h3>Poolside Paradise</h3>
                     <p>Residential • Pool Area</p>
+                </div>
+            </label>
+        </div>
+
+        <!-- Modal 1: Front Yard Coronado -->
+        <div class="project-modal modal-1">
+            <div class="modal-content">
+                <label for="modal1" class="modal-close">✕</label>
+                <div class="modal-hero">
+                    <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/Front-Yard-Coronado-Tracy.jpg?v=1793297034" alt="Front Yard Coronado">
+                    <div class="modal-hero-overlay">
+                        <div class="modal-hero-text">
+                            <h2>Front Yard Coronado</h2>
+                            <p>📍 Tracy, California • Residential</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Client</span>
+                            <span class="meta-value">Coronado Family</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Location</span>
+                            <span class="meta-value">Tracy, CA</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Area</span>
+                            <span class="meta-value">850 sq ft</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Duration</span>
+                            <span class="meta-value">2 Days</span>
+                        </div>
+                    </div>
+
+                    <h3>Project Overview</h3>
+                    <p>The Coronado family wanted to transform their dull, patchy front yard into a welcoming, low-maintenance landscape that would boost curb appeal and save them hours of weekly upkeep. We installed our premium Eazy Green Turf across the entire front lawn, creating a lush, evergreen space that looks stunning year-round.</p>
+                    
+                    <h3>The Challenge</h3>
+                    <p>The existing natural grass was struggling with California's hot summers and water restrictions. Brown patches, uneven growth, and constant watering needs made the front yard an eyesore. The family was spending over 3 hours every weekend just on lawn maintenance.</p>
+
+                    <h3>Our Solution</h3>
+                    <p>We removed the old grass, prepared a proper drainage base, and installed our premium 40mm turf with natural thatch layer. The result is a beautiful, pet-friendly lawn that looks and feels like real grass — without any of the maintenance.</p>
+
+                    <div class="modal-gallery">
+                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/Front-Yard-Coronado-Tracy.jpg?v=1793297034" alt="Project view 1">
+                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/images_3.jpg?v=1793297034" alt="Project view 2">
+                    </div>
+
+                    <h3>Features Installed</h3>
+                    <ul class="modal-features">
+                        <li>Premium 40mm Turf</li>
+                        <li>UV-Stabilized Fibers</li>
+                        <li>Drainage System</li>
+                        <li>Pet-Friendly Materials</li>
+                        <li>Natural Thatch Layer</li>
+                        <li>15-Year Warranty</li>
+                    </ul>
+
+                    <div class="modal-cta">
+                        <p>Love this transformation? Let's create something similar for your space!</p>
+                        <a href="#contact" class="btn btn-primary">Start Your Project</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 2: Garden Landscape -->
+        <div class="project-modal modal-2">
+            <div class="modal-content">
+                <label for="modal2" class="modal-close">✕</label>
+                <div class="modal-hero">
+                    <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/images_3.jpg?v=1793297034" alt="Garden Landscape">
+                    <div class="modal-hero-overlay">
+                        <div class="modal-hero-text">
+                            <h2>Garden Landscape</h2>
+                            <p>📍 Residential Backyard • Private Garden</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Client</span>
+                            <span class="meta-value">Thompson Residence</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Location</span>
+                            <span class="meta-value">Private Residence</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Area</span>
+                            <span class="meta-value">1,200 sq ft</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Duration</span>
+                            <span class="meta-value">3 Days</span>
+                        </div>
+                    </div>
+
+                    <h3>Project Overview</h3>
+                    <p>The Thompsons envisioned a serene backyard garden retreat where they could relax, entertain, and let their children play safely. We designed and installed a multi-zone artificial turf landscape that blends seamlessly with existing garden features.</p>
+                    
+                    <h3>The Challenge</h3>
+                    <p>The backyard had heavy shade from mature trees, making natural grass nearly impossible to maintain. Mud, bare patches, and constant reseeding were frustrating the family for years.</p>
+
+                    <h3>Our Solution</h3>
+                    <p>We installed our shade-optimized turf that thrives in low-light conditions. Combined with strategic landscaping and proper drainage, we created a beautiful, usable space the family enjoys every day.</p>
+
+                    <div class="modal-gallery">
+                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/images_3.jpg?v=1793297034" alt="Project view 1">
+                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/DSC5133-2-scaled.jpg?v=1793297035" alt="Project view 2">
+                    </div>
+
+                    <h3>Features Installed</h3>
+                    <ul class="modal-features">
+                        <li>Shade-Optimized Turf</li>
+                        <li>Multi-Zone Layout</li>
+                        <li>Advanced Drainage</li>
+                        <li>Child-Safe Materials</li>
+                        <li>Custom Contours</li>
+                        <li>15-Year Warranty</li>
+                    </ul>
+
+                    <div class="modal-cta">
+                        <p>Ready to transform your backyard? Let's chat!</p>
+                        <a href="#contact" class="btn btn-primary">Get Free Quote</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 3: Modern Outdoor Living -->
+        <div class="project-modal modal-3">
+            <div class="modal-content">
+                <label for="modal3" class="modal-close">✕</label>
+                <div class="modal-hero">
+                    <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/DSC5133-2-scaled.jpg?v=1793297035" alt="Modern Outdoor Living">
+                    <div class="modal-hero-overlay">
+                        <div class="modal-hero-text">
+                            <h2>Modern Outdoor Living</h2>
+                            <p>📍 Contemporary Patio Design</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Client</span>
+                            <span class="meta-value">Martinez Family</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Style</span>
+                            <span class="meta-value">Contemporary</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Area</span>
+                            <span class="meta-value">600 sq ft</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Duration</span>
+                            <span class="meta-value">1 Day</span>
+                        </div>
+                    </div>
+
+                    <h3>Project Overview</h3>
+                    <p>This modern patio project showcases how artificial turf can complement contemporary architecture. The clean lines and lush green surface create a stunning contrast with the home's minimalist design.</p>
+                    
+                    <h3>The Challenge</h3>
+                    <p>The clients wanted a modern outdoor entertaining space that required zero maintenance but looked impeccably manicured at all times — perfect for hosting guests year-round.</p>
+
+                    <h3>Our Solution</h3>
+                    <p>We used our short-pile premium turf with crisp edges and geometric patterns, creating a sleek, modern aesthetic that perfectly complements the home's architecture.</p>
+
+                    <div class="modal-gallery">
+                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/DSC5133-2-scaled.jpg?v=1793297035" alt="Project view 1">
+                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/360_F_2060065365_veVreELBZQ36hO9nH3zQwFszT2cVuPON.jpg?v=1793297667" alt="Project view 2">
+                    </div>
+
+                    <h3>Features Installed</h3>
+                    <ul class="modal-features">
+                        <li>Short-Pile Premium Turf</li>
+                        <li>Geometric Design</li>
+                        <li>Seamless Integration</li>
+                        <li>Heavy Traffic Rated</li>
+                        <li>Quick-Dry Technology</li>
+                        <li>15-Year Warranty</li>
+                    </ul>
+
+                    <div class="modal-cta">
+                        <p>Want a modern outdoor space like this?</p>
+                        <a href="#contact" class="btn btn-primary">Start Your Project</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 4: Commercial Landscape -->
+        <div class="project-modal modal-4">
+            <div class="modal-content">
+                <label for="modal4" class="modal-close">✕</label>
+                <div class="modal-hero">
+                    <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/662be0b7e88bf8ef28f1fa586711c2fe.jpg?v=1793534928" alt="Commercial Landscape">
+                    <div class="modal-hero-overlay">
+                        <div class="modal-hero-text">
+                            <h2>Commercial Landscape</h2>
+                            <p>📍 Office Complex • Corporate Campus</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Client</span>
+                            <span class="meta-value">TechHub Corporate</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Type</span>
+                            <span class="meta-value">Commercial</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Area</span>
+                            <span class="meta-value">5,000 sq ft</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Duration</span>
+                            <span class="meta-value">5 Days</span>
+                        </div>
+                    </div>
+
+                    <h3>Project Overview</h3>
+                    <p>A large-scale commercial installation for a tech company's corporate campus. We transformed multiple outdoor areas including common spaces, walkways, and relaxation zones into beautiful, low-maintenance green areas.</p>
+                    
+                    <h3>The Challenge</h3>
+                    <p>The company was spending over $15,000 annually on lawn maintenance, watering, and reseeding. High foot traffic areas were constantly worn and unsightly, creating a poor first impression for clients.</p>
+
+                    <h3>Our Solution</h3>
+                    <p>We installed our commercial-grade heavy-traffic turf across 5,000 square feet, designed to withstand constant use while maintaining its pristine appearance. The result? A 90% reduction in maintenance costs and a stunning campus that impresses visitors.</p>
+
+                    <div class="modal-gallery">
+                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/662be0b7e88bf8ef28f1fa586711c2fe.jpg?v=1793534928" alt="Project view 1">
+                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/Front-Yard-Coronado-Tracy.jpg?v=1793297034" alt="Project view 2">
+                    </div>
+
+                    <h3>Features Installed</h3>
+                    <ul class="modal-features">
+                        <li>Commercial-Grade Turf</li>
+                        <li>Heavy Traffic Rated</li>
+                        <li>Fire Retardant</li>
+                        <li>ADA Compliant</li>
+                        <li>Industrial Drainage</li>
+                        <li>15-Year Warranty</li>
+                    </ul>
+
+                    <div class="modal-cta">
+                        <p>Commercial project? We handle projects of any scale.</p>
+                        <a href="#contact" class="btn btn-primary">Request Commercial Quote</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 5: Poolside Paradise -->
+        <div class="project-modal modal-5">
+            <div class="modal-content">
+                <label for="modal5" class="modal-close">✕</label>
+                <div class="modal-hero">
+                    <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/360_F_2060065365_veVreELBZQ36hO9nH3zQwFszT2cVuPON.jpg?v=1793297667" alt="Poolside Paradise">
+                    <div class="modal-hero-overlay">
+                        <div class="modal-hero-text">
+                            <h2>Poolside Paradise</h2>
+                            <p>📍 Residential Pool Area</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Client</span>
+                            <span class="meta-value">Johnson Family</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Location</span>
+                            <span class="meta-value">Pool Surround</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Area</span>
+                            <span class="meta-value">450 sq ft</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Duration</span>
+                            <span class="meta-value">1 Day</span>
+                        </div>
+                    </div>
+
+                    <h3>Project Overview</h3>
+                    <p>The Johnsons wanted to eliminate the muddy, slippery mess around their pool that formed after every swim. Our poolside turf installation provides a safe, beautiful, and always-clean surface around their swimming area.</p>
+                    
+                    <h3>The Challenge</h3>
+                    <p>Traditional pool surrounds get slippery, muddy, and track dirt into the pool. The family was constantly cleaning and dealing with unsafe wet surfaces around the pool edge.</p>
+
+                    <h3>Our Solution</h3>
+                    <p>We installed our specialized pool-grade turf with superior drainage and non-slip backing. The surface stays cool underfoot, drains instantly, and never gets muddy — making the pool area safer and more enjoyable for the whole family.</p>
+
+                    <div class="modal-gallery">
+                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/360_F_2060065365_veVreELBZQ36hO9nH3zQwFszT2cVuPON.jpg?v=1793297667" alt="Project view 1">
+                        <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/DSC5133-2-scaled.jpg?v=1793297035" alt="Project view 2">
+                    </div>
+
+                    <h3>Features Installed</h3>
+                    <ul class="modal-features">
+                        <li>Pool-Grade Turf</li>
+                        <li>Non-Slip Backing</li>
+                        <li>Instant Drainage</li>
+                        <li>Cool-Touch Technology</li>
+                        <li>Chlorine Resistant</li>
+                        <li>15-Year Warranty</li>
+                    </ul>
+
+                    <div class="modal-cta">
+                        <p>Transform your pool area into a paradise!</p>
+                        <a href="#contact" class="btn btn-primary">Get Free Quote</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1204,7 +2073,6 @@
 
     <!-- ============================================
          COMPARISON SECTION
-         Natural grass vs Artificial grass
          ============================================ -->
     <section class="comparison" id="compare">
         <div class="section-header">
@@ -1213,7 +2081,6 @@
             <p>See why more homeowners are making the switch to artificial turf.</p>
         </div>
         <div class="comparison-grid">
-            <!-- Natural Grass Card -->
             <div class="comparison-card natural">
                 <div class="comparison-image">
                     <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/dry-and-damaged-grass-needs-lawn-care-royalty-free-image-1747944970.avif?v=1793297897" alt="Natural grass needing care">
@@ -1232,7 +2099,6 @@
                 </div>
             </div>
 
-            <!-- Artificial Grass Card -->
             <div class="comparison-card">
                 <div class="comparison-image">
                     <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/70123b65a52a1199917a36b68f5a62da.jpg?v=1793541827" alt="Premium artificial grass">
@@ -1255,8 +2121,6 @@
 
     <!-- ============================================
          FAQ SECTION
-         Using native <details> element for accordion
-         Each question has the brand logo as icon
          ============================================ -->
     <section class="faq" id="faq">
         <div class="section-header">
@@ -1265,7 +2129,6 @@
             <p>Everything you need to know about our artificial grass solutions.</p>
         </div>
         <div class="faq-container">
-            <!-- FAQ 1 -->
             <details class="faq-item">
                 <summary>
                     <span class="faq-icon">
@@ -1279,7 +2142,6 @@
                 </div>
             </details>
 
-            <!-- FAQ 2 -->
             <details class="faq-item">
                 <summary>
                     <span class="faq-icon">
@@ -1293,7 +2155,6 @@
                 </div>
             </details>
 
-            <!-- FAQ 3 -->
             <details class="faq-item">
                 <summary>
                     <span class="faq-icon">
@@ -1307,7 +2168,6 @@
                 </div>
             </details>
 
-            <!-- FAQ 4 -->
             <details class="faq-item">
                 <summary>
                     <span class="faq-icon">
@@ -1321,7 +2181,6 @@
                 </div>
             </details>
 
-            <!-- FAQ 5 -->
             <details class="faq-item">
                 <summary>
                     <span class="faq-icon">
@@ -1335,7 +2194,6 @@
                 </div>
             </details>
 
-            <!-- FAQ 6 -->
             <details class="faq-item">
                 <summary>
                     <span class="faq-icon">
@@ -1349,7 +2207,6 @@
                 </div>
             </details>
 
-            <!-- FAQ 7 -->
             <details class="faq-item">
                 <summary>
                     <span class="faq-icon">
@@ -1367,7 +2224,6 @@
 
     <!-- ============================================
          CONTACT SECTION
-         Contact info + form with blurred background
          ============================================ -->
     <section class="contact" id="contact">
         <div class="section-header">
@@ -1376,7 +2232,6 @@
             <p>Ready to transform your outdoor area? Contact us for a free consultation and quote.</p>
         </div>
         <div class="contact-grid">
-            <!-- Contact Information -->
             <div class="contact-info">
                 <h3>Reach Out to Us</h3>
                 <p>Have questions or ready to start your project? Our friendly team is here to help you every step of the way.</p>
@@ -1400,7 +2255,6 @@
                 </ul>
             </div>
 
-            <!-- Contact Form -->
             <form class="contact-form" action="#" method="POST">
                 <div class="form-group">
                     <label for="name">Full Name</label>
@@ -1425,15 +2279,19 @@
 
     <!-- ============================================
          FOOTER
+         Logo now visible with white background container
          ============================================ -->
     <footer>
         <div class="footer-content">
-            <div class="footer-logo">
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            <div class="footer-logo-wrapper">
+                <div class="footer-logo">
+                    <img src="https://cdn.shopify.com/s/files/1/0997/6004/6396/files/979d265b-d8d9-4fd6-9bb4-b08b2b1479b4.png?v=1793535008" alt="Eazy Green Turf">
+                </div>
+                <p class="footer-tagline">"Transforming spaces, one lawn at a time"</p>
             </div>
-            <p>Premium artificial grass solutions for modern living.</p>
+
+            <p>Premium artificial grass solutions for modern living. Sustainable, beautiful, and built to last.</p>
+
             <ul class="footer-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
@@ -1442,6 +2300,30 @@
                 <li><a href="#faq">FAQ</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
+
+            <div class="footer-contact-row">
+                <div class="footer-contact-item">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    <span>123 Green Street, Garden City</span>
+                </div>
+                <div class="footer-contact-item">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                    <span>+1 (555) 123-4567</span>
+                </div>
+                <div class="footer-contact-item">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                    <span>hello@eazygreenturf.com</span>
+                </div>
+            </div>
+
             <div class="footer-bottom">
                 <p>&copy; 2026 Eazy Green Turf. All rights reserved. | Crafted with 🌱 for a greener world.</p>
             </div>
@@ -1450,4 +2332,3 @@
 
 </body>
 </html>
-
